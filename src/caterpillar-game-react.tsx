@@ -1,56 +1,47 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
-interface Category {
-  name: string;
-  words: string[];
-}
-
-interface GameState {
-  categories: Category[];
-  currentDay: number;
-  score: number;
-}
-
-const CaterpillarGame: React.FC = () => {
-  const [gameState, setGameState] = useState<GameState>({
-    categories: [],
-    currentDay: 1,
-    score: 0,
-  });
-
-  useEffect(() => {
-    // TODO: Fetch categories from an API or load from a local file
-    const dummyCategories: Category[] = [
-      { name: 'Elements', words: ['Hydrogen', 'Helium', 'Iron', 'Carbon', 'Oxygen'] },
-      { name: '20th century American novels', words: ['The Grapes of Wrath', 'The Great Gatsby', 'To Kill a Mockingbird', 'Of Mice and Men', 'The Catcher in the Rye'] },
-      { name: 'Debut years of Apple products', words: ['2001', '2007', '2010', '2015', '2023'] },
-    ];
-    setGameState(prev => ({ ...prev, categories: dummyCategories }));
-  }, []);
-
-  const renderClues = (category: Category, difficulty: 'Easy' | 'Medium' | 'Hard') => {
-    const maxClues = difficulty === 'Easy' ? 3 : difficulty === 'Medium' ? 4 : 5;
-    return (
-      <div className="category">
-        <h4>{difficulty}</h4>
-        <div className="clues">
-          {category.words.slice(0, Math.min(gameState.currentDay, maxClues)).map((word, index) => (
-            <div key={index}>{word}</div>
-          ))}
-        </div>
-      </div>
-    );
-  };
+const CaterpillarGame = () => {
+  const [score, setScore] = useState(0);
+  
+  // Example data - replace with your actual game logic
+  const categories = [
+    { name: 'Easy', clues: ['Hydrogen', '???', '???'] },
+    { name: 'Medium', clues: ['The Grapes of Wrath', '???', '???', '???'] },
+    { name: 'Hard', clues: ['2001', '???', '???', '???', '???'] }
+  ];
 
   return (
     <div id="caterpillar-game-container">
+      <h1>Caterpillar Game</h1>
       <div className="caterpillar">caterpillar 🐛</div>
+      
       <div id="game-board">
-        {gameState.categories.map((category, index) => (
-          renderClues(category, index === 0 ? 'Easy' : index === 1 ? 'Medium' : 'Hard')
+        {categories.map((category, index) => (
+          <div key={index} className="category">
+            <h4>{category.name}</h4>
+            <div id={`${category.name.toLowerCase()}-clues`} className="clues">
+              {category.clues.map((clue, clueIndex) => (
+                <div key={clueIndex} className={`clue ${clue === '???' ? 'hidden' : ''}`}>
+                  {clue}
+                </div>
+              ))}
+            </div>
+            <div className="input-area">
+              <input type="text" placeholder="Enter your guess" />
+            </div>
+          </div>
         ))}
       </div>
-      <div id="score">Score: {gameState.score}</div>
+      
+      <button id="submit-button">SUBMIT</button>
+      
+      <div id="score">
+        Score: {score}
+      </div>
+      
+      <div id="message-display" className="hidden">
+        {/* Add message display logic here */}
+      </div>
     </div>
   );
 };
