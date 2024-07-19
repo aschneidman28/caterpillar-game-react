@@ -13,17 +13,23 @@
   margin-bottom: 20px;
 }
 
+/* Category card styles */
 .category {
   flex: 1;
   margin: 0 10px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .category h4 {
   text-align: center;
-  background-color: #FBF8EB;
-  color: black;
+  background-color: #FBF8EB; /* Updated to light beige as requested */
+  color: black; /* Updated to black as requested */
   padding: 10px;
-  border-radius: 20px;
+  border-radius: 10px 10px 0 0;
+  margin: -10px -10px 10px -10px;
 }
 
 /* Clue styles */
@@ -35,18 +41,18 @@
 .clue {
   margin: 5px 0;
   padding: 10px;
-  border-radius: 10px;
+  border-radius: 5px;
   text-align: center;
 }
 
 /* Color coding for clues */
 #easy-clues .clue { background-color: #EEB551; }
-#medium-clues .clue { background-color: #D5ED69; } /* Light green for Medium */
-#hard-clues .clue { background-color: #C8C8C8; } /* Light grey for Hard */
+#medium-clues .clue { background-color: #D5ED69; }
+#hard-clues .clue { background-color: #C8C8C8; }
 
 /* Hidden clue style */
 .clue.hidden {
-  background-color: #D3D3D3; /* Light grey for hidden clues */
+  background-color: rgba(211, 211, 211, 0.5); /* Semi-transparent light grey for hidden clues */
 }
 
 /* Input styles */
