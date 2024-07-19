@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import CaterpillarGame from './caterpillar-game-react.tsx';  // Add the .tsx extension
+import CaterpillarGame from './caterpillar-game-react';
 
 function App() {
   return (
