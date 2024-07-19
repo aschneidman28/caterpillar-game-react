@@ -1,1 +1,6 @@
-echo '{ "root": "build/", "routes": { "/**": "index.html" } }' > static.json
+{
+  "root": "build/",
+  "routes": {
+    "/**": "index.html"
+  }
+}
