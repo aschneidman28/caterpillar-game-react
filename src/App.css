@@ -20,7 +20,7 @@
 
 .category h4 {
   text-align: center;
-  background-color: #87CEEB; /* Light blue for category headers */
+  background-color: #FBF8EB;
   color: white;
   padding: 10px;
   border-radius: 20px;
@@ -40,9 +40,9 @@
 }
 
 /* Color coding for clues */
-#easy-clues .clue { background-color: #F4A460; } /* Sandy brown for Easy */
-#medium-clues .clue { background-color: #90EE90; } /* Light green for Medium */
-#hard-clues .clue { background-color: #D3D3D3; } /* Light grey for Hard */
+#easy-clues .clue { background-color: #EEB551; }
+#medium-clues .clue { background-color: #D5ED69; } /* Light green for Medium */
+#hard-clues .clue { background-color: #C8C8C8; } /* Light grey for Hard */
 
 /* Hidden clue style */
 .clue.hidden {
@@ -55,10 +55,11 @@
 }
 
 input[type="text"] {
-  width: 100%;
+  width: 90%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  text-align: center;
 }
 
 /* Submit button styles */
