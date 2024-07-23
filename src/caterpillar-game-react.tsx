@@ -16,7 +16,6 @@ const CaterpillarGame: React.FC = () => {
   const [userGuesses, setUserGuesses] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
-    // Initialize the game with the current week's clues
     setCategories(weeklyClues.categories);
   }, []);
 
@@ -28,14 +27,11 @@ const CaterpillarGame: React.FC = () => {
     let newScore = score;
     categories.forEach(category => {
       if (userGuesses[category.name]?.toLowerCase() === category.topic.toLowerCase()) {
-        // Calculate score based on the current day and category difficulty
         const pointsEarned = calculatePoints(category.name, currentDay);
         newScore += pointsEarned;
-        // You might want to add some visual feedback here
       }
     });
     setScore(newScore);
-    // Move to the next day
     setCurrentDay(prev => Math.min(prev + 1, 5));
   };
 
@@ -56,11 +52,14 @@ const CaterpillarGame: React.FC = () => {
         {categories.map((category, index) => (
           <div key={index} className="category">
             <h4>{category.name}</h4>
-            <div className="clues">
+            <div id={`${category.name.toLowerCase()}-clues`} className="clues">
               {category.clues.slice(0, currentDay).map((clue, clueIndex) => (
                 <div key={clueIndex} className="clue">
                   {clue}
                 </div>
+              ))}
+              {Array(category.clues.length - currentDay).fill(null).map((_, index) => (
+                <div key={`hidden-${index}`} className="clue hidden">???</div>
               ))}
             </div>
             <div className="input-area">
@@ -75,7 +74,7 @@ const CaterpillarGame: React.FC = () => {
         ))}
       </div>
       
-      <button onClick={handleSubmit}>SUBMIT</button>
+      <button id="submit-button" onClick={handleSubmit}>SUBMIT</button>
       
       <div id="score">
         Score: {score}
