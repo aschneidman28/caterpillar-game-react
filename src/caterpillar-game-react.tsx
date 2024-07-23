@@ -20,7 +20,7 @@ interface DailyClue {
 }
 
 // Assume dailyClues is an array of DailyClue
-const dailyCluesArray: DailyClue[] = dailyClues as DailyClue[];
+const dailyCluesArray: DailyClue[] = dailyClues as unknown as DailyClue[];
 
 const CaterpillarGame: React.FC = () => {
   const [score, setScore] = useState('');
