@@ -17,6 +17,7 @@ const CaterpillarGame: React.FC = () => {
   const [guessedCategories, setGuessedCategories] = useState<Set<string>>(new Set());
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState('');
+  const [countdown, setCountdown] = useState("");
 
   useEffect(() => {
     setCategories(weeklyClues.categories);
@@ -27,7 +28,20 @@ const CaterpillarGame: React.FC = () => {
       if (easternTime.getHours() === 20 && currentDay < weeklyClues.categories[0].clues.length) {
         setCurrentDay(prevDay => prevDay + 1);
       }
-    }, 60000); // Check every minute
+    
+      // Calculate time remaining until next 8pm Eastern Time
+      const next8pm = new Date(easternTime);
+      next8pm.setHours(20, 0, 0, 0);
+      if (easternTime.getHours() >= 20) {
+        next8pm.setDate(next8pm.getDate() + 1);
+      }
+      const diff = next8pm.getTime() - easternTime.getTime();
+      const hours = Math.floor(diff / 1000 / 60 / 60);
+      const minutes = Math.floor(diff / 1000 / 60) % 60;
+      const seconds = Math.floor(diff / 1000) % 60;
+    
+      setCountdown(`${hours} hours, ${minutes} minutes, ${seconds} seconds until next clue`);
+    }, 1000); // Check every second
   
     return () => clearInterval(intervalId); // Clean up on unmount
   }, [currentDay]);
@@ -57,7 +71,6 @@ const CaterpillarGame: React.FC = () => {
       setModalContent(`Game Over! You solved the Caterpillar Game in ${currentDay} day${currentDay > 1 ? 's' : ''}! Your score: ${newScore}`);
       setShowModal(true);
     } else {
-      setCurrentDay(prev => prev + 1);
       setModalContent(`Day ${currentDay} completed. Keep going!`);
       setShowModal(true);
     }
