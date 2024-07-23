@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import './CaterpillarGame.css'; // We'll create this CSS file next
 
 // Import the JSON data
 import weeklyClues from './weekly-clues.json';
