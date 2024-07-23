@@ -20,7 +20,17 @@ const CaterpillarGame: React.FC = () => {
 
   useEffect(() => {
     setCategories(weeklyClues.categories);
-  }, []);
+  
+    const intervalId = setInterval(() => {
+      const now = new Date();
+      const easternTime = new Date(now.toLocaleString("en-US", { timeZone: "America/New_York" }));
+      if (easternTime.getHours() === 20 && currentDay < weeklyClues.categories[0].clues.length) {
+        setCurrentDay(prevDay => prevDay + 1);
+      }
+    }, 60000); // Check every minute
+  
+    return () => clearInterval(intervalId); // Clean up on unmount
+  }, [currentDay]);
 
   const handleInputChange = (categoryName: string, value: string) => {
     setUserGuesses(prev => ({ ...prev, [categoryName]: value }));
