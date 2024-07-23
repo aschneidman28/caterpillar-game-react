@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 // Import the JSON data
-import weeklyClues from './weekly-clues.json';
+import dailyClues from './daily-clues.json';
 
 interface Clue {
   name: string;
@@ -20,12 +20,12 @@ const CaterpillarGame: React.FC = () => {
   const [countdown, setCountdown] = useState("");
 
   useEffect(() => {
-    setCategories(weeklyClues.categories);
+    setCategories(dailyClues.categories);
   
     const intervalId = setInterval(() => {
       const now = new Date();
       const easternTime = new Date(now.toLocaleString("en-US", { timeZone: "America/New_York" }));
-      if (easternTime.getHours() === 20 && currentDay < weeklyClues.categories[0].clues.length) {
+      if (easternTime.getHours() === 20 && currentDay < dailyClues.categories[0].clues.length) {
         setCurrentDay(prevDay => prevDay + 1);
       }
     
@@ -40,7 +40,7 @@ const CaterpillarGame: React.FC = () => {
       const minutes = Math.floor(diff / 1000 / 60) % 60;
       const seconds = Math.floor(diff / 1000) % 60;
     
-      setCountdown(`${hours} hours, ${minutes} minutes, ${seconds} seconds until next clue`);
+      setCountdown(`New categories in ${hours} hours, ${minutes} minutes, ${seconds}`);
     }, 1000); // Check every second
   
     return () => clearInterval(intervalId); // Clean up on unmount
