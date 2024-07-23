@@ -146,14 +146,12 @@ const CaterpillarGame: React.FC = () => {
           );
         })}
       </div>
+
+      <div>{countdown}</div> {/* Countdown timer */}
       
       <button id="submit-button" onClick={handleSubmit} disabled={currentDay > 5 || guessedCategories.size === categories.length}>
         SUBMIT
       </button>
-      
-      <div id="day-display">
-        Day: {currentDay}
-      </div>
 
       {showModal && (
         <div className="modal-overlay">
