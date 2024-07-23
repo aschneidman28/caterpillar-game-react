@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
 // Import the JSON data
-import dailyClues from './daily-clues.json';
-
-interface Clue {
-  clue: string;
-  answer: string;
-}
+import dailyCluesData from './daily-clues.json';
 
 interface Category {
   name: string;
-  clues: Clue[];
+  topic: string;
+  clues: string[];
 }
 
 interface DailyClue {
@@ -19,8 +15,8 @@ interface DailyClue {
   categories: Category[];
 }
 
-// Assume dailyClues is an array of DailyClue
-const dailyCluesArray: DailyClue[] = dailyClues as unknown as DailyClue[];
+// Assert the type of dailyCluesData
+const dailyClues: DailyClue = dailyCluesData as DailyClue;
 
 const CaterpillarGame: React.FC = () => {
   const [score, setScore] = useState('');
@@ -32,47 +28,23 @@ const CaterpillarGame: React.FC = () => {
   const [countdown, setCountdown] = useState("");
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      const now = new Date();
-      const easternTime = new Date(now.toLocaleString("en-US", { timeZone: "America/New_York" }));
-      if (easternTime.getHours() === 20 && currentDay < dailyCluesArray[0].categories[0].clues.length) {
-        setCurrentDay(prevDay => prevDay + 1);
-      }
-    
-      // Calculate time remaining until next 8pm Eastern Time
-      const next8pm = new Date(easternTime);
-      next8pm.setHours(20, 0, 0, 0);
-      if (easternTime.getHours() >= 20) {
-        next8pm.setDate(next8pm.getDate() + 1);
-      }
-      const diff = next8pm.getTime() - easternTime.getTime();
-      const hours = Math.floor(diff / 1000 / 60 / 60);
-      const minutes = Math.floor(diff / 1000 / 60) % 60;
-      const seconds = Math.floor(diff / 1000) % 60;
-    
-      setCountdown(`New categories in ${hours} hours, ${minutes} minutes, ${seconds} seconds`);
-    }, 1000); // Check every second
-  
-    return () => clearInterval(intervalId); // Clean up on unmount
+    // ... (keep your existing useEffect logic)
   }, [currentDay]);
 
-  const handleInputChange = (categoryNameWithIndex: string, value: string) => {
-    setUserGuesses(prev => ({ ...prev, [categoryNameWithIndex]: value }));
+  const handleInputChange = (categoryName: string, index: number, value: string) => {
+    setUserGuesses(prev => ({ ...prev, [`${categoryName}${index}`]: value }));
   };
 
   const handleSubmit = () => {
     let allCorrect = true;
     let newGuessedCategories = new Set(guessedCategories);
 
-    dailyCluesArray[currentDay - 1].categories.forEach((category) => {
-      category.clues.forEach((clue, index) => {
-        const guessKey = `${category.name}${index}`;
-        if (userGuesses[guessKey]?.toLowerCase().trim() === clue.answer.toLowerCase().trim()) {
-          newGuessedCategories.add(guessKey);
-        } else {
-          allCorrect = false;
-        }
-      });
+    dailyClues.categories.forEach((category) => {
+      if (userGuesses[category.name]?.toLowerCase().trim() === category.topic.toLowerCase().trim()) {
+        newGuessedCategories.add(category.name);
+      } else {
+        allCorrect = false;
+      }
     });
 
     setGuessedCategories(newGuessedCategories);
@@ -90,7 +62,7 @@ const CaterpillarGame: React.FC = () => {
     setUserGuesses({});  // Clear guesses after submission
   };
 
-  const getScoreEmoji = (day: number) => {
+  const getScoreEmoji = (day: number): string => {
     switch (day) {
       case 1: return '🦋';
       case 2: return '🍑';
@@ -101,7 +73,7 @@ const CaterpillarGame: React.FC = () => {
     }
   };
 
-  const getMaxClues = (categoryName: string) => {
+  const maxClues = (categoryName: string): number => {
     switch (categoryName) {
       case 'Easy': return 3;
       case 'Medium': return 4;
@@ -125,41 +97,42 @@ const CaterpillarGame: React.FC = () => {
     }
   };
 
+
   return (
     <div id="caterpillar-game-container">
       <h1>caterpillar 🐛</h1>
       
       <div id="game-board">
-        {dailyCluesArray[currentDay - 1].categories.map((category, categoryIndex) => {
-          const maxClues = getMaxClues(category.name);
+        {dailyClues.categories.map((category, categoryIndex) => {
+          const cluesForCategory = maxClues(category.name);
           return (
             <div key={categoryIndex} className="category">
               <h4>{category.name}</h4>
               <div id={`${category.name.toLowerCase()}-clues`} className="clues">
-                {category.clues.slice(0, Math.min(currentDay, maxClues)).map((clue, clueIndex) => (
+                {category.clues.slice(0, Math.min(currentDay, cluesForCategory)).map((clue, clueIndex) => (
                   <div key={clueIndex} className="clue">
-                    <div>{clue.clue}</div>
-                    <input 
-                      type="text" 
-                      placeholder="Enter your guess" 
-                      value={userGuesses[`${category.name}${clueIndex}`] || ''}
-                      onChange={(e) => handleInputChange(`${category.name}${clueIndex}`, e.target.value)}
-                      disabled={guessedCategories.has(`${category.name}${clueIndex}`)}
-                    />
+                    <div>{clue}</div>
                   </div>
                 ))}
-                {Array(Math.max(0, maxClues - currentDay)).fill(null).map((_, index) => (
+                {Array(Math.max(0, cluesForCategory - currentDay)).fill(null).map((_, index) => (
                   <div key={`hidden-${index}`} className="clue hidden">???</div>
                 ))}
               </div>
+              <input 
+                type="text" 
+                placeholder="Enter category guess" 
+                value={userGuesses[category.name] || ''}
+                onChange={(e) => handleInputChange(category.name, categoryIndex, e.target.value)}
+                disabled={guessedCategories.has(category.name)}
+              />
             </div>
           );
         })}
       </div>
 
-      <div>{countdown}</div> {/* Countdown timer */}
+      <div>{countdown}</div>
       
-      <button id="submit-button" onClick={handleSubmit} disabled={currentDay > 5 || guessedCategories.size === dailyCluesArray[currentDay - 1].categories.reduce((total, category) => total + getMaxClues(category.name), 0)}>
+      <button id="submit-button" onClick={handleSubmit} disabled={currentDay > 5 || guessedCategories.size === dailyClues.categories.length}>
         SUBMIT
       </button>
 
