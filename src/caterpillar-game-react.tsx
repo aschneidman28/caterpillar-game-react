@@ -14,6 +14,7 @@ const CaterpillarGame: React.FC = () => {
   const [currentDay, setCurrentDay] = useState(1);
   const [categories, setCategories] = useState<Clue[]>([]);
   const [userGuesses, setUserGuesses] = useState<{ [key: string]: string }>({});
+  const [guessedCategories, setGuessedCategories] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     setCategories(weeklyClues.categories);
@@ -25,14 +26,21 @@ const CaterpillarGame: React.FC = () => {
 
   const handleSubmit = () => {
     let newScore = score;
+    let newGuessedCategories = new Set(guessedCategories);
+
     categories.forEach(category => {
-      if (userGuesses[category.name]?.toLowerCase() === category.topic.toLowerCase()) {
+      if (!guessedCategories.has(category.name) &&
+          userGuesses[category.name]?.toLowerCase().trim() === category.topic.toLowerCase().trim()) {
         const pointsEarned = calculatePoints(category.name, currentDay);
         newScore += pointsEarned;
+        newGuessedCategories.add(category.name);
       }
     });
+
     setScore(newScore);
+    setGuessedCategories(newGuessedCategories);
     setCurrentDay(prev => Math.min(prev + 1, 5));
+    setUserGuesses({});  // Clear guesses after submission
   };
 
   const calculatePoints = (categoryName: string, day: number) => {
@@ -58,7 +66,7 @@ const CaterpillarGame: React.FC = () => {
                   {clue}
                 </div>
               ))}
-              {Array(category.clues.length - currentDay).fill(null).map((_, index) => (
+              {Array(Math.max(0, 5 - currentDay)).fill(null).map((_, index) => (
                 <div key={`hidden-${index}`} className="clue hidden">???</div>
               ))}
             </div>
@@ -68,13 +76,14 @@ const CaterpillarGame: React.FC = () => {
                 placeholder="Enter your guess" 
                 value={userGuesses[category.name] || ''}
                 onChange={(e) => handleInputChange(category.name, e.target.value)}
+                disabled={guessedCategories.has(category.name)}
               />
             </div>
           </div>
         ))}
       </div>
       
-      <button id="submit-button" onClick={handleSubmit}>SUBMIT</button>
+      <button id="submit-button" onClick={handleSubmit} disabled={currentDay > 5}>SUBMIT</button>
       
       <div id="score">
         Score: {score}
