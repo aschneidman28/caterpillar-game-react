@@ -41,13 +41,13 @@ const CaterpillarGame: React.FC = () => {
 
     setGuessedCategories(newGuessedCategories);
 
-    if (allCorrect) {
+    if (allCorrect || currentDay === 5) {
       const newScore = getScoreEmoji(currentDay);
       setScore(newScore);
-      setModalContent(`Congratulations! You solved all categories in ${currentDay} day${currentDay > 1 ? 's' : ''}! Your score: ${newScore}`);
+      setModalContent(`Game Over! You solved the Caterpillar Game in ${currentDay} day${currentDay > 1 ? 's' : ''}! Your score: ${newScore}`);
       setShowModal(true);
     } else {
-      setCurrentDay(prev => Math.min(prev + 1, 5));
+      setCurrentDay(prev => prev + 1);
       setModalContent(`Day ${currentDay} completed. Keep going!`);
       setShowModal(true);
     }
@@ -124,7 +124,9 @@ const CaterpillarGame: React.FC = () => {
         })}
       </div>
       
-      <button id="submit-button" onClick={handleSubmit} disabled={currentDay > 5}>SUBMIT</button>
+      <button id="submit-button" onClick={handleSubmit} disabled={currentDay > 5 || guessedCategories.size === categories.length}>
+        SUBMIT
+      </button>
       
       <div id="day-display">
         Day: {currentDay}
