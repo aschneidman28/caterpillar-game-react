@@ -12,8 +12,8 @@ const CaterpillarGame = () => {
 
   return (
     <div id="caterpillar-game-container">
-      <h1>Caterpillar Game</h1>
-      <div className="caterpillar">caterpillar 🐛</div>
+      <h1>caterpillar 🐛</h1>
+      <div className="caterpillar"></div>
       
       <div id="game-board">
         {categories.map((category, index) => (
