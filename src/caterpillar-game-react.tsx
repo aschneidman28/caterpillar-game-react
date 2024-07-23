@@ -45,11 +45,20 @@ const CaterpillarGame: React.FC = () => {
 
   const calculatePoints = (categoryName: string, day: number) => {
     const pointsTable = {
-      Easy: [3, 2, 1, 1, 1],
-      Medium: [4, 3, 2, 2, 1],
+      Easy: [3, 2, 1],
+      Medium: [4, 3, 2, 1],
       Hard: [5, 4, 3, 2, 1]
     };
-    return pointsTable[categoryName as keyof typeof pointsTable][day - 1];
+    return pointsTable[categoryName as keyof typeof pointsTable][day - 1] || 0;
+  };
+
+  const getMaxClues = (categoryName: string) => {
+    switch (categoryName) {
+      case 'Easy': return 3;
+      case 'Medium': return 4;
+      case 'Hard': return 5;
+      default: return 5;
+    }
   };
 
   return (
@@ -57,30 +66,33 @@ const CaterpillarGame: React.FC = () => {
       <h1>caterpillar 🐛</h1>
       
       <div id="game-board">
-        {categories.map((category, index) => (
-          <div key={index} className="category">
-            <h4>{category.name}</h4>
-            <div id={`${category.name.toLowerCase()}-clues`} className="clues">
-              {category.clues.slice(0, currentDay).map((clue, clueIndex) => (
-                <div key={clueIndex} className="clue">
-                  {clue}
-                </div>
-              ))}
-              {Array(Math.max(0, 5 - currentDay)).fill(null).map((_, index) => (
-                <div key={`hidden-${index}`} className="clue hidden">???</div>
-              ))}
+        {categories.map((category, index) => {
+          const maxClues = getMaxClues(category.name);
+          return (
+            <div key={index} className="category">
+              <h4>{category.name}</h4>
+              <div id={`${category.name.toLowerCase()}-clues`} className="clues">
+                {category.clues.slice(0, Math.min(currentDay, maxClues)).map((clue, clueIndex) => (
+                  <div key={clueIndex} className="clue">
+                    {clue}
+                  </div>
+                ))}
+                {Array(Math.max(0, maxClues - currentDay)).fill(null).map((_, index) => (
+                  <div key={`hidden-${index}`} className="clue hidden">???</div>
+                ))}
+              </div>
+              <div className="input-area">
+                <input 
+                  type="text" 
+                  placeholder="Enter your guess" 
+                  value={userGuesses[category.name] || ''}
+                  onChange={(e) => handleInputChange(category.name, e.target.value)}
+                  disabled={guessedCategories.has(category.name)}
+                />
+              </div>
             </div>
-            <div className="input-area">
-              <input 
-                type="text" 
-                placeholder="Enter your guess" 
-                value={userGuesses[category.name] || ''}
-                onChange={(e) => handleInputChange(category.name, e.target.value)}
-                disabled={guessedCategories.has(category.name)}
-              />
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
       
       <button id="submit-button" onClick={handleSubmit} disabled={currentDay > 5}>SUBMIT</button>
