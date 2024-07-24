@@ -31,8 +31,8 @@ const CaterpillarGame: React.FC = () => {
     // ... (keep your existing useEffect logic)
   }, [currentDay]);
 
-  const handleInputChange = (categoryName: string, index: number, value: string) => {
-    setUserGuesses(prev => ({ ...prev, [`${categoryName}${index}`]: value }));
+  const handleInputChange = (categoryName: string, value: string) => {
+    setUserGuesses(prev => ({ ...prev, [`${categoryName}`]: value }));
   };
 
   const handleSubmit = () => {
@@ -122,7 +122,7 @@ const CaterpillarGame: React.FC = () => {
                 type="text" 
                 placeholder="Enter category guess" 
                 value={userGuesses[category.name] || ''}
-                onChange={(e) => handleInputChange(category.name, categoryIndex, e.target.value)}
+                onChange={(e) => handleInputChange(category.name, e.target.value)}
                 disabled={guessedCategories.has(category.name)}
               />
             </div>
