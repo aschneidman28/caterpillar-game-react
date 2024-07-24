@@ -22,8 +22,7 @@ const clueHours = [7, 11, 15, 19, 23]
 const dailyClues: DailyClue = dailyCluesData as DailyClue;
 
 const CaterpillarGame: React.FC = () => {
-  // const currentHour = new Date().getHours()
-  const currentHour = 15;
+  const currentHour = new Date().getHours()
   const visibleClues = clueHours.filter(hour => currentHour >= hour).length - 1 // -1 to make it 0-indexed
 
   const [score, setScore] = useState('');
@@ -33,12 +32,8 @@ const CaterpillarGame: React.FC = () => {
   const [modalContent, setModalContent] = useState('');
   const [countdown, setCountdown] = useState("");
 
-  useEffect(() => {
-    // ... (keep your existing useEffect logic)
-  }, []);
-
-  const handleInputChange = (categoryName: string, index: number, value: string) => {
-    setUserGuesses(prev => ({ ...prev, [`${categoryName}${index}`]: value }));
+  const handleInputChange = (categoryName: string, value: string) => {
+    setUserGuesses(prev => ({ ...prev, [`${categoryName}`]: value }));
   };
 
   const handleSubmit = () => {
@@ -125,7 +120,7 @@ const CaterpillarGame: React.FC = () => {
                 type="text" 
                 placeholder="Enter category guess" 
                 value={userGuesses[category.name] || ''}
-                onChange={(e) => handleInputChange(category.name, categoryIndex, e.target.value)}
+                onChange={(e) => handleInputChange(category.name, e.target.value)}
                 disabled={guessedCategories.has(category.name)}
               />
             </div>
