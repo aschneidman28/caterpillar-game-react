@@ -15,12 +15,18 @@ interface DailyClue {
   categories: Category[];
 }
 
+// hour each clue is released
+const clueHours = [7, 11, 15, 19, 23]
+
 // Assert the type of dailyCluesData
 const dailyClues: DailyClue = dailyCluesData as DailyClue;
 
 const CaterpillarGame: React.FC = () => {
+  // const currentHour = new Date().getHours()
+  const currentHour = 15;
+  const visibleClues = clueHours.filter(hour => currentHour >= hour).length - 1 // -1 to make it 0-indexed
+
   const [score, setScore] = useState('');
-  const [currentDay, setCurrentDay] = useState(1);
   const [userGuesses, setUserGuesses] = useState<{ [key: string]: string }>({});
   const [guessedCategories, setGuessedCategories] = useState<Set<string>>(new Set());
   const [showModal, setShowModal] = useState(false);
@@ -29,7 +35,7 @@ const CaterpillarGame: React.FC = () => {
 
   useEffect(() => {
     // ... (keep your existing useEffect logic)
-  }, [currentDay]);
+  }, []);
 
   const handleInputChange = (categoryName: string, index: number, value: string) => {
     setUserGuesses(prev => ({ ...prev, [`${categoryName}${index}`]: value }));
@@ -49,13 +55,13 @@ const CaterpillarGame: React.FC = () => {
 
     setGuessedCategories(newGuessedCategories);
 
-    if (allCorrect || currentDay === 5) {
-      const newScore = getScoreEmoji(currentDay);
+    if (allCorrect || visibleClues === 5) {
+      const newScore = getScoreEmoji(visibleClues);
       setScore(newScore);
-      setModalContent(`Game Over! You solved the Caterpillar Game in ${currentDay} day${currentDay > 1 ? 's' : ''}! Your score: ${newScore}`);
+      setModalContent(`Game Over! You solved the Caterpillar Game! Your score: ${newScore}`);
       setShowModal(true);
     } else {
-      setModalContent(`Day ${currentDay} completed. Keep going!`);
+      setModalContent(`Day ${visibleClues} completed. Keep going!`);
       setShowModal(true);
     }
 
@@ -83,7 +89,7 @@ const CaterpillarGame: React.FC = () => {
   };
 
   const shareScore = () => {
-    const shareText = `I solved the Caterpillar Game in ${currentDay} days! My score: ${score}`;
+    const shareText = `I solved the Caterpillar Game! My score: ${score}`;
     if (navigator.share) {
       navigator.share({
         title: 'Caterpillar Game Score',
@@ -104,19 +110,16 @@ const CaterpillarGame: React.FC = () => {
       
       <div id="game-board">
         {dailyClues.categories.map((category, categoryIndex) => {
-          const cluesForCategory = maxClues(category.name);
           return (
             <div key={categoryIndex} className="category">
               <h4>{category.name}</h4>
               <div id={`${category.name.toLowerCase()}-clues`} className="clues">
-                {category.clues.slice(0, Math.min(currentDay, cluesForCategory)).map((clue, clueIndex) => (
-                  <div key={clueIndex} className="clue">
-                    <div>{clue}</div>
-                  </div>
-                ))}
-                {Array(Math.max(0, cluesForCategory - currentDay)).fill(null).map((_, index) => (
-                  <div key={`hidden-${index}`} className="clue hidden">???</div>
-                ))}
+                {/*// Loop through the clues and display them (or hide them if they're not visible yet)*/}
+                {category.clues.map((clue, clueIndex) =>
+                    (clueIndex <= visibleClues) ?
+                    <div key={clueIndex} className="clue">{clue}</div> :
+                    <div key={`hidden-${clueIndex}`} className="clue hidden">???</div>
+                )}
               </div>
               <input 
                 type="text" 
@@ -132,7 +135,7 @@ const CaterpillarGame: React.FC = () => {
 
       <div>{countdown}</div>
       
-      <button id="submit-button" onClick={handleSubmit} disabled={currentDay > 5 || guessedCategories.size === dailyClues.categories.length}>
+      <button id="submit-button" onClick={handleSubmit} disabled={visibleClues > 5 || guessedCategories.size === dailyClues.categories.length}>
         SUBMIT
       </button>
 
