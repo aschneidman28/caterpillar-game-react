@@ -1,13 +1,302 @@
 {
-  "day": 1,
-  "startDate": "2024-07-22",
-  "category": {
-    "topic": "20th Century American Novels",
-    "clues": [
-      "The Grapes of Wrath",
-      "The Great Gatsby",
-      "To Kill a Mockingbird",
-      "Of Mice and Men"
-    ]
-  }
+  "clues": [
+    {
+      "day": 1,
+      "startDate": "2024-07-22",
+      "category": {
+        "topic": "Foods with animal mascots",
+        "clues": [
+          "Cheetos",
+          "Frosted Flakes",
+          "Froot Loops",
+          "Nesquik"
+        ]
+      }
+    },
+    {
+      "day": 2,
+      "startDate": "2024-07-23",
+      "category": {
+        "topic": "Winners of a Nobel Prize",
+        "clues": [
+          "Malala Yousafzai",
+          "Barack Obama",
+          "Martin Luther King, Jr.",
+          "Marie Curie"
+        ]
+      }
+    },
+    {
+      "day": 3,
+      "startDate": "2024-07-24",
+      "category": {
+        "topic": "Tennis Grand Slams",
+        "clues": [
+          "US Open",
+          "Wimbledon",
+          "Australian Open",
+          "French Open"
+        ]
+      }
+    },
+    {
+      "day": 4,
+      "startDate": "2024-07-25",
+      "category": {
+        "topic": "Holidays",
+        "clues": [
+          "Memorial Day",
+          "Labor Day",
+          "Presidents Day",
+          "Veterans Day"
+        ]
+      }
+    },
+    {
+      "day": 5,
+      "startDate": "2024-07-26",
+      "category": {
+        "topic": "Stringed instruments",
+        "clues": [
+          "Sitar",
+          "Oud",
+          "Harp",
+          "Banjo"
+        ]
+      }
+    },
+    {
+      "day": 6,
+      "startDate": "2024-07-27",
+      "category": {
+        "topic": "Vice Presidents",
+        "clues": [
+          "Gore",
+          "Adams",
+          "Burr",
+          "Harris"
+        ]
+      }
+    },
+    {
+      "day": 7,
+      "startDate": "2024-07-28",
+      "category": {
+        "topic": "Bird clades",
+        "clues": [
+          "Turdidae",
+          "Corvidae",
+          "Passeridae",
+          "Oriolidae"
+        ]
+      }
+    },
+    {
+      "day": 8,
+      "startDate": "2024-07-29",
+      "category": {
+        "topic": "Nike shoes",
+        "clues": [
+          "Pegasus",
+          "Blazer",
+          "Dunk",
+          "Cortez"
+        ]
+      }
+    },
+    {
+      "day": 9,
+      "startDate": "2024-07-30",
+      "category": {
+        "topic": "Stars",
+        "clues": [
+          "Vega",
+          "Betelgeuse",
+          "Polaris",
+          "Sirius"
+        ]
+      }
+    },
+    {
+      "day": 10,
+      "startDate": "2024-07-31",
+      "category": {
+        "topic": "Female Marvel Characters",
+        "clues": [
+          "Gamora",
+          "Black Widow",
+          "Captain Marvel",
+          "Okoye"
+        ]
+      }
+    },
+    {
+      "day": 11,
+      "startDate": "2024-08-01",
+      "category": {
+        "topic": "Award Shows",
+        "clues": [
+          "Emmys",
+          "Tonys",
+          "Oscars",
+          "Grammys"
+        ]
+      }
+    },
+    {
+      "day": 12,
+      "startDate": "2024-08-02",
+      "category": {
+        "topic": "Real Housewives Locations",
+        "clues": [
+          "Orange County",
+          "New York City",
+          "Atlanta",
+          "New Jersey"
+        ]
+      }
+    },
+    {
+      "day": 13,
+      "startDate": "2024-08-03",
+      "category": {
+        "topic": "Camera Settings",
+        "clues": [
+          "f-stop",
+          "ISO",
+          "Shutter speed",
+          "White Balance"
+        ]
+      }
+    },
+    {
+      "day": 14,
+      "startDate": "2024-08-04",
+      "category": {
+        "topic": "Photosynthesis inputs",
+        "clues": [
+          "Carbon Dioxide",
+          "Water",
+          "Light"
+        ]
+      }
+    },
+    {
+      "day": 15,
+      "startDate": "2024-08-05",
+      "category": {
+        "topic": "Years of Yankee World Series Wins",
+        "clues": [
+          "2009",
+          "2000",
+          "1999",
+          "1998"
+        ]
+      }
+    },
+    {
+      "day": 16,
+      "startDate": "2024-08-06",
+      "category": {
+        "topic": "Units of measure in feet",
+        "clues": [
+          "31.039 quadrillion",
+          "3280.8",
+          "5280",
+          "3"
+        ]
+      }
+    },
+    {
+      "day": 17,
+      "startDate": "2024-08-07",
+      "category": {
+        "topic": "Chinese Zodiac",
+        "clues": [
+          "Dragon",
+          "Rat",
+          "Tiger",
+          "Monkey"
+        ]
+      }
+    },
+    {
+      "day": 18,
+      "startDate": "2024-08-08",
+      "category": {
+        "topic": "Cat coats",
+        "clues": [
+          "Tuxedo",
+          "Calico",
+          "Tortoiseshell",
+          "Black"
+        ]
+      }
+    },
+    {
+      "day": 19,
+      "startDate": "2024-08-09",
+      "category": {
+        "topic": "NATO alphabet",
+        "clues": [
+          "Quebec",
+          "Romeo",
+          "Sierra",
+          "Tango"
+        ]
+      }
+    },
+    {
+      "day": 20,
+      "startDate": "2024-08-10",
+      "category": {
+        "topic": "Canadian provinces",
+        "clues": [
+          "Alberta",
+          "Ontario",
+          "Quebec",
+          "British Columbia"
+        ]
+      }
+    },
+    {
+      "day": 21,
+      "startDate": "2024-08-11",
+      "category": {
+        "topic": "Regions of the brain",
+        "clues": [
+          "Cerebrum",
+          "Cerebellum",
+          "Medulla",
+          "Hypothalamus"
+        ]
+      }
+    },
+    {
+      "day": 22,
+      "startDate": "2024-08-12",
+      "category": {
+        "topic": "Nintendo characters",
+        "clues": [
+          "Toad",
+          "Peach",
+          "Birdo",
+          "Wario"
+        ]
+      }
+    },
+    {
+      "day": 23,
+      "startDate": "2024-08-13",
+      "category": {
+        "topic": "Movies with robots",
+        "clues": [
+          "Wall-E",
+          "Ex Machina",
+          "The Iron Giant",
+          "Transformers"
+        ]
+      }
+    }
+  ]
 }
