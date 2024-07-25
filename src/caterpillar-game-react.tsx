@@ -14,13 +14,18 @@ interface DailyClue {
   category: Category;
 }
 
+interface CluesData {
+  clues: DailyClue[];
+}
+
 // Assert the type of dailyCluesData
-const dailyClues: DailyClue = dailyCluesData as DailyClue;
+const cluesData: CluesData = dailyCluesData as CluesData;
 
 // Hours when each clue is released
 const clueHours = [8, 12, 16, 20];
 
 const CaterpillarGame: React.FC = () => {
+  const [currentClue, setCurrentClue] = useState<DailyClue | null>(null);
   const [visibleClues, setVisibleClues] = useState(0);
   const [userGuess, setUserGuess] = useState('');
   const [score, setScore] = useState('');
@@ -28,6 +33,17 @@ const CaterpillarGame: React.FC = () => {
   const [modalContent, setModalContent] = useState('');
   const [countdown, setCountdown] = useState('');
   const [gameWon, setGameWon] = useState(false);
+
+  useEffect(() => {
+    const today = new Date().toISOString().split('T')[0];
+    const todayClue = cluesData.clues.find(clue => clue.startDate === today);
+    if (todayClue) {
+      setCurrentClue(todayClue);
+    } else {
+      // If no clue for today, use the first one (you might want to handle this differently)
+      setCurrentClue(cluesData.clues[0]);
+    }
+  }, []);
 
   useEffect(() => {
     const updateVisibleClues = () => {
@@ -47,14 +63,16 @@ const CaterpillarGame: React.FC = () => {
   };
 
   const handleSubmit = () => {
-    if (userGuess.toLowerCase().trim() === dailyClues.category.topic.toLowerCase().trim()) {
+    if (!currentClue) return;
+
+    if (userGuess.toLowerCase().trim() === currentClue.category.topic.toLowerCase().trim()) {
       const newScore = getScoreEmoji(visibleClues);
       setScore(newScore);
       setModalContent(`Congratulations! You've guessed correctly. You've won a ${newScore}`);
       setShowModal(true);
       setGameWon(true);
     } else if (visibleClues === 4) {
-      setModalContent(`Sorry, that's not correct. The answer was: ${dailyClues.category.topic}`);
+      setModalContent(`Sorry, that's not correct. The answer was: ${currentClue.category.topic}`);
       setShowModal(true);
     } else {
       setModalContent(`That's not correct. Keep trying!`);
@@ -89,6 +107,10 @@ const CaterpillarGame: React.FC = () => {
     }
   };
 
+  if (!currentClue) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div id="caterpillar-game-container">
       <h1>caterpillar 🐛</h1>
@@ -97,7 +119,7 @@ const CaterpillarGame: React.FC = () => {
         <div className="category">
           <h4>Today's Category</h4>
           <div id="clues" className="clues">
-            {dailyClues.category.clues.map((clue, index) =>
+            {currentClue.category.clues.map((clue, index) =>
               (index < visibleClues) ?
               <div key={index} className="clue">{clue}</div> :
               <div key={`hidden-${index}`} className="clue hidden">???</div>
