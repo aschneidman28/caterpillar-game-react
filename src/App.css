@@ -35,18 +35,18 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px; /* Add space between clues and input */
+  margin-bottom: 20px; /* Space between clues and input */
+  align-items: center; /* Center clues horizontally */
 }
 
 .clue {
-  margin: 5px 0;
-  max-width: 80%;
-  margin-left: auto;
-  margin-right: auto;
+  width: 80%; /* Fixed width for all clues */
+  margin: 5px 0; /* Consistent spacing above and below each clue */
   padding: 10px;
   border-radius: 5px;
   text-align: center;
   background-color: #D5ED69;
+  box-sizing: border-box; /* Include padding in width calculation */
 }
 
 /* Input styles */
