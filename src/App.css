@@ -1,4 +1,3 @@
-/* Existing styles */
 /* Main container styles */
 #caterpillar-game-container {
   font-family: "Source Sans Pro", sans-serif;
@@ -8,6 +7,17 @@
   text-align: center;
   background-color: #E0E0E0;
   border-radius: 10px;
+}
+
+/* Game title styles */
+h1 {
+  margin-bottom: 10px;
+}
+
+/* Current date styles */
+p {
+  margin-bottom: 20px;
+  font-weight: bold;
 }
 
 /* Game board styles */
@@ -35,34 +45,37 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px; /* Space between clues and input */
-  align-items: center; /* Center clues horizontally */
+  margin-bottom: 20px;
+  align-items: center;
 }
 
 .clue {
-  width: 80%; /* Fixed width for all clues */
-  margin: 5px 0; /* Consistent spacing above and below each clue */
+  width: 80%;
+  margin: 5px 0;
   padding: 10px;
   border-radius: 5px;
   text-align: center;
   background-color: #D5ED69;
-  box-sizing: border-box; /* Include padding in width calculation */
+  box-sizing: border-box;
+}
+
+/* Hidden clue styles */
+.clue.hidden {
+  background-color: #ccc;
+  color: #888;
+}
+
+/* Word count hint styles */
+.category p {
+  margin-top: 10px;
+  margin-bottom: 15px;
+  font-style: italic;
+  color: #666;
 }
 
 /* Input styles */
-.input-area {
-  margin-top: 20px; /* Increase space above input area */
-  display: flex;
-  justify-content: space-between;
-}
-
-.input-wrapper {
-  flex: 1;
-  margin: 0 5px;
-}
-
 input[type="text"] {
-  max-width: 80%;
+  width: 80%;
   margin-left: auto;
   margin-right: auto;
   padding: 10px;
@@ -90,28 +103,12 @@ input[type="text"] {
   background-color: #45a049;
 }
 
-/* Score display styles */
-#score {
-  text-align: center;
-  font-size: 18px;
-  font-weight: bold;
-  margin-top: 20px;
+#submit-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
 }
 
-/* Message display styles */
-#message-display {
-  text-align: center;
-  margin-top: 20px;
-  padding: 10px;
-  border-radius: 5px;
-  background-color: #f0f0f0;
-}
-
-#message-display.hidden {
-  display: none;
-}
-
-/* New modal styles */
+/* Modal styles */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -154,4 +151,11 @@ input[type="text"] {
 
 .modal-content button:hover {
   background-color: #45a049;
+}
+
+/* Styles for when there's no game */
+#caterpillar-game-container p:only-child {
+  font-size: 18px;
+  color: #666;
+  margin-top: 20px;
 }
