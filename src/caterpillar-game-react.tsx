@@ -127,10 +127,10 @@ const CaterpillarGame: React.FC = () => {
   return (
     <div id="caterpillar-game-container">
       <h1>caterpillar 🐛</h1>
-      <p>{currentDate}</p>
       
       <div id="game-board">
         <div className="category">
+          <p>{currentDate}</p>
           <div id="clues" className="clues">
             {currentClue.category.clues.map((clue, index) =>
               (index < visibleClues) ?
