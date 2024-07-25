@@ -141,7 +141,7 @@ const CaterpillarGame: React.FC = () => {
           <p>Today's theme has {wordCount} word{wordCount > 1 ? 's' : ''}</p>
           <input 
             type="text" 
-            placeholder="Enter category guess" 
+            placeholder="Guess today's theme" 
             value={userGuess}
             onChange={(e) => handleInputChange(e.target.value)}
             disabled={gameWon}
