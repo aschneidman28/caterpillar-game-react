@@ -10,7 +10,7 @@ interface Category {
 }
 
 interface DailyClue {
-  week: number;
+  day: number;
   startDate: string;
   categories: Category[];
 }
