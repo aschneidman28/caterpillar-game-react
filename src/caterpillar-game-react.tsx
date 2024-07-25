@@ -138,7 +138,7 @@ const CaterpillarGame: React.FC = () => {
               <div key={`hidden-${index}`} className="clue hidden">???</div>
             )}
           </div>
-          <p>Hint: The answer has {wordCount} word{wordCount > 1 ? 's' : ''}</p>
+          <p>Today's theme has {wordCount} word{wordCount > 1 ? 's' : ''}</p>
           <input 
             type="text" 
             placeholder="Enter category guess" 
