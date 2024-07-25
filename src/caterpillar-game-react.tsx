@@ -117,7 +117,6 @@ const CaterpillarGame: React.FC = () => {
       
       <div id="game-board">
         <div className="category">
-          <h4>Today's Category</h4>
           <div id="clues" className="clues">
             {currentClue.category.clues.map((clue, index) =>
               (index < visibleClues) ?
