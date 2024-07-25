@@ -1,36 +1,13 @@
 {
   "day": 1,
   "startDate": "2024-07-22",
-  "categories": [
-    {
-      "name": "Easy",
-      "topic": "Elements",
-      "clues": [
-        "Hydrogen",
-        "Helium",
-        "Iron"
-      ]
-    },
-    {
-      "name": "Medium",
-      "topic": "20th Century American Novels",
-      "clues": [
-        "The Grapes of Wrath",
-        "The Great Gatsby",
-        "To Kill a Mockingbird",
-        "Of Mice and Men"
-      ]
-    },
-    {
-      "name": "Hard",
-      "topic": "Debut Years of Apple Products",
-      "clues": [
-        "2001",
-        "2007",
-        "2010",
-        "2015",
-        "2023"
-      ]
-    }
-  ]
+  "category": {
+    "topic": "20th Century American Novels",
+    "clues": [
+      "The Grapes of Wrath",
+      "The Great Gatsby",
+      "To Kill a Mockingbird",
+      "Of Mice and Men"
+    ]
+  }
 }
