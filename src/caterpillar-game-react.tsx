@@ -16,7 +16,7 @@ interface DailyClue {
 }
 
 // hour each clue is released
-const clueHours = [7, 11, 15, 19, 23]
+const clueHours = [8, 10, 12, 14, 16]
 
 // Assert the type of dailyCluesData
 const dailyClues: DailyClue = dailyCluesData as DailyClue;
