@@ -46,11 +46,6 @@
   background-color: #D5ED69;
 }
 
-/* Increase space between clues */
-.clue + .clue {
-  margin-top: 15px;
-}
-
 /* Input styles */
 .input-area {
   margin-top: 20px; /* Increase space above input area */
