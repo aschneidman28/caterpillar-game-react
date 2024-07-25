@@ -13,14 +13,15 @@
 /* Game board styles */
 #game-board {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   margin-bottom: 20px;
 }
 
 /* Category card styles */
 .category {
-  flex: 1;
-  margin: 0 10px;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
   background-color: #FBF8EB;
   border-radius: 10px;
   padding: 10px;
@@ -42,7 +43,7 @@
 .clues {
   flex-grow: 1;
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
 }
 
 .clue {
@@ -50,12 +51,8 @@
   padding: 10px;
   border-radius: 5px;
   text-align: center;
+  background-color: #EEB551;
 }
-
-/* Color coding for clues */
-#easy-clues .clue { background-color: #EEB551; }
-#medium-clues .clue { background-color: #D5ED69; }
-#hard-clues .clue { background-color: #C8C8C8; }
 
 /* Hidden clue style */
 .clue.hidden {
