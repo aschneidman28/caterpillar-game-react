@@ -40,6 +40,7 @@
 
 .clue {
   margin: 5px 0;
+  max-width: 80%;
   padding: 10px;
   border-radius: 5px;
   text-align: center;
