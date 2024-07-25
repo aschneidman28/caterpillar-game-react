@@ -41,6 +41,8 @@
 .clue {
   margin: 5px 0;
   max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
   padding: 10px;
   border-radius: 5px;
   text-align: center;
@@ -60,7 +62,9 @@
 }
 
 input[type="text"] {
-  width: 100%;
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
