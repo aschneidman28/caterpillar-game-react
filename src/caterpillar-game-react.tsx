@@ -53,7 +53,7 @@ const CaterpillarGame: React.FC = () => {
     if (allCorrect || visibleClues === 5) {
       const newScore = getScoreEmoji(visibleClues);
       setScore(newScore);
-      setModalContent(`Game Over! You solved the Caterpillar Game! Your score: ${newScore}`);
+      setModalContent(`You got all three pillars! You've won a ${newScore}`);
       setShowModal(true);
     } else {
       setModalContent(`Day ${visibleClues} completed. Keep going!`);
