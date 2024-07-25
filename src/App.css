@@ -30,20 +30,12 @@
   flex-direction: column;
 }
 
-.category h4 {
-  text-align: center;
-  background-color: #FBF8EB;
-  color: black;
-  padding: 10px;
-  border-radius: 10px 10px 0 0;
-  margin: -10px -10px 10px -10px;
-}
-
 /* Clue styles */
 .clues {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  margin-bottom: 20px; /* Add space between clues and input */
 }
 
 .clue {
@@ -54,14 +46,14 @@
   background-color: #D5ED69;
 }
 
-/* Hidden clue style */
-.clue.hidden {
-  background-color: rgba(211, 211, 211, 0.5);
+/* Increase space between clues */
+.clue + .clue {
+  margin-top: 15px;
 }
 
 /* Input styles */
 .input-area {
-  margin-top: 10px;
+  margin-top: 20px; /* Increase space above input area */
   display: flex;
   justify-content: space-between;
 }
