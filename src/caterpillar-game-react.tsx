@@ -33,15 +33,25 @@ const CaterpillarGame: React.FC = () => {
   const [modalContent, setModalContent] = useState('');
   const [countdown, setCountdown] = useState('');
   const [gameWon, setGameWon] = useState(false);
+  const [currentDate, setCurrentDate] = useState('');
+  const [wordCount, setWordCount] = useState(0);
 
   useEffect(() => {
-    const today = new Date().toISOString().split('T')[0];
-    const todayClue = cluesData.clues.find(clue => clue.startDate === today);
-    if (todayClue) {
-      setCurrentClue(todayClue);
+    const today = new Date();
+    const dayOfWeek = today.getDay();
+    
+    // Only show game Monday-Friday
+    if (dayOfWeek >= 1 && dayOfWeek <= 5) {
+      const dateString = today.toISOString().split('T')[0];
+      const todayClue = cluesData.clues.find(clue => clue.startDate === dateString);
+      if (todayClue) {
+        setCurrentClue(todayClue);
+        setWordCount(todayClue.category.topic.split(' ').length);
+        setCurrentDate(today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }));
+      }
     } else {
-      // If no clue for today, use the first one (you might want to handle this differently)
-      setCurrentClue(cluesData.clues[0]);
+      setCurrentClue(null);
+      setCurrentDate('No game today. Come back on Monday!');
     }
   }, []);
 
@@ -108,12 +118,16 @@ const CaterpillarGame: React.FC = () => {
   };
 
   if (!currentClue) {
-    return <div>Loading...</div>;
+    return <div id="caterpillar-game-container">
+      <h1>caterpillar 🐛</h1>
+      <p>{currentDate}</p>
+    </div>;
   }
 
   return (
     <div id="caterpillar-game-container">
       <h1>caterpillar 🐛</h1>
+      <p>{currentDate}</p>
       
       <div id="game-board">
         <div className="category">
@@ -124,6 +138,7 @@ const CaterpillarGame: React.FC = () => {
               <div key={`hidden-${index}`} className="clue hidden">???</div>
             )}
           </div>
+          <p>Hint: The answer has {wordCount} word{wordCount > 1 ? 's' : ''}</p>
           <input 
             type="text" 
             placeholder="Enter category guess" 
