@@ -2,7 +2,7 @@
 /* Main container styles */
 #caterpillar-game-container {
   font-family: "Source Sans Pro", sans-serif;
-  max-width: 800px;
+  max-width: 600px;
   margin: 0 auto;
   padding: 20px;
   text-align: center;
@@ -20,7 +20,7 @@
 /* Category card styles */
 .category {
   width: 100%;
-  max-width: 400px;
+  max-width: 300px;
   margin: 0 auto;
   background-color: #FBF8EB;
   border-radius: 10px;
