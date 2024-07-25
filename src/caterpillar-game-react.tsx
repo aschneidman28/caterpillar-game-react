@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import dailyCluesData from './daily-clues.json';
 
 interface Category {
-  name: string;
   topic: string;
   clues: string[];
 }
@@ -12,74 +11,66 @@ interface Category {
 interface DailyClue {
   day: number;
   startDate: string;
-  categories: Category[];
+  category: Category;
 }
-
-// hour each clue is released
-const clueHours = [8, 10, 12, 14, 16]
 
 // Assert the type of dailyCluesData
 const dailyClues: DailyClue = dailyCluesData as DailyClue;
 
-const CaterpillarGame: React.FC = () => {
-  const currentHour = new Date().getHours()
-  const visibleClues = clueHours.filter(hour => currentHour >= hour).length - 1 // -1 to make it 0-indexed
+// Hours when each clue is released
+const clueHours = [8, 12, 16, 20];
 
+const CaterpillarGame: React.FC = () => {
+  const [visibleClues, setVisibleClues] = useState(0);
+  const [userGuess, setUserGuess] = useState('');
   const [score, setScore] = useState('');
-  const [userGuesses, setUserGuesses] = useState<{ [key: string]: string }>({});
-  const [guessedCategories, setGuessedCategories] = useState<Set<string>>(new Set());
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState('');
-  const [countdown, setCountdown] = useState("");
+  const [countdown, setCountdown] = useState('');
+  const [gameWon, setGameWon] = useState(false);
 
-  const handleInputChange = (categoryName: string, value: string) => {
-    setUserGuesses(prev => ({ ...prev, [`${categoryName}`]: value }));
+  useEffect(() => {
+    const updateVisibleClues = () => {
+      const currentHour = new Date().getHours();
+      const newVisibleClues = clueHours.filter(hour => currentHour >= hour).length;
+      setVisibleClues(newVisibleClues);
+    };
+
+    updateVisibleClues();
+    const interval = setInterval(updateVisibleClues, 60000); // Check every minute
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleInputChange = (value: string) => {
+    setUserGuess(value);
   };
 
   const handleSubmit = () => {
-    let allCorrect = true;
-    let newGuessedCategories = new Set(guessedCategories);
-
-    dailyClues.categories.forEach((category) => {
-      if (userGuesses[category.name]?.toLowerCase().trim() === category.topic.toLowerCase().trim()) {
-        newGuessedCategories.add(category.name);
-      } else {
-        allCorrect = false;
-      }
-    });
-
-    setGuessedCategories(newGuessedCategories);
-
-    if (allCorrect || visibleClues === 5) {
+    if (userGuess.toLowerCase().trim() === dailyClues.category.topic.toLowerCase().trim()) {
       const newScore = getScoreEmoji(visibleClues);
       setScore(newScore);
-      setModalContent(`You got all three pillars! You've won a ${newScore}`);
+      setModalContent(`Congratulations! You've guessed correctly. You've won a ${newScore}`);
+      setShowModal(true);
+      setGameWon(true);
+    } else if (visibleClues === 4) {
+      setModalContent(`Sorry, that's not correct. The answer was: ${dailyClues.category.topic}`);
       setShowModal(true);
     } else {
-      setModalContent(`Day ${visibleClues} completed. Keep going!`);
+      setModalContent(`That's not correct. Keep trying!`);
       setShowModal(true);
     }
 
-    setUserGuesses({});  // Clear guesses after submission
+    setUserGuess('');  // Clear guess after submission
   };
 
-  const getScoreEmoji = (day: number): string => {
-    switch (day) {
+  const getScoreEmoji = (cluesRevealed: number): string => {
+    switch (cluesRevealed) {
       case 1: return '🦋';
       case 2: return '🍑';
       case 3: return '🍒';
       case 4: return '🍒';
-      case 5: return '🍒';
       default: return '';
-    }
-  };
-
-  const maxClues = (categoryName: string): number => {
-    switch (categoryName) {
-      case 'Easy': return 3;
-      case 'Medium': return 4;
-      case 'Hard': return 5;
-      default: return 5;
     }
   };
 
@@ -98,39 +89,33 @@ const CaterpillarGame: React.FC = () => {
     }
   };
 
-
   return (
     <div id="caterpillar-game-container">
       <h1>caterpillar 🐛</h1>
       
       <div id="game-board">
-        {dailyClues.categories.map((category, categoryIndex) => {
-          return (
-            <div key={categoryIndex} className="category">
-              <h4>{category.name}</h4>
-              <div id={`${category.name.toLowerCase()}-clues`} className="clues">
-                {/*// Loop through the clues and display them (or hide them if they're not visible yet)*/}
-                {category.clues.map((clue, clueIndex) =>
-                    (clueIndex <= visibleClues) ?
-                    <div key={clueIndex} className="clue">{clue}</div> :
-                    <div key={`hidden-${clueIndex}`} className="clue hidden">???</div>
-                )}
-              </div>
-              <input 
-                type="text" 
-                placeholder="Enter category guess" 
-                value={userGuesses[category.name] || ''}
-                onChange={(e) => handleInputChange(category.name, e.target.value)}
-                disabled={guessedCategories.has(category.name)}
-              />
-            </div>
-          );
-        })}
+        <div className="category">
+          <h4>Today's Category</h4>
+          <div id="clues" className="clues">
+            {dailyClues.category.clues.map((clue, index) =>
+              (index < visibleClues) ?
+              <div key={index} className="clue">{clue}</div> :
+              <div key={`hidden-${index}`} className="clue hidden">???</div>
+            )}
+          </div>
+          <input 
+            type="text" 
+            placeholder="Enter category guess" 
+            value={userGuess}
+            onChange={(e) => handleInputChange(e.target.value)}
+            disabled={gameWon}
+          />
+        </div>
       </div>
 
       <div>{countdown}</div>
       
-      <button id="submit-button" onClick={handleSubmit} disabled={visibleClues > 5 || guessedCategories.size === dailyClues.categories.length}>
+      <button id="submit-button" onClick={handleSubmit} disabled={gameWon}>
         SUBMIT
       </button>
 
